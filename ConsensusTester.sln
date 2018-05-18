@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsensusTester", "ConsensusTester\ConsensusTester.csproj", "{2EC2E702-1244-4C22-A870-7D128B446C50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsensusTester", "ConsensusTester\ConsensusTester.csproj", "{2EC2E702-1244-4C22-A870-7D128B446C50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsensusTester.DataAccess", "ConsensusTester.DataAccess\ConsensusTester.DataAccess.csproj", "{BF0E238C-726C-4402-B864-39B9BC64C4B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsensusTester.DataAccess", "ConsensusTester.DataAccess\ConsensusTester.DataAccess.csproj", "{BF0E238C-726C-4402-B864-39B9BC64C4B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsensusTester.Services", "ConsensusTester.Services\ConsensusTester.Services.csproj", "{24076918-6E3E-4888-8D60-800A8AC31817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsensusTester.Services", "ConsensusTester.Services\ConsensusTester.Services.csproj", "{24076918-6E3E-4888-8D60-800A8AC31817}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsensusTester.Client", "ConsensusTester.Client\ConsensusTester.Client.csproj", "{69D84790-B7F6-4DC5-8193-C104BE3EFDBE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consensus.CompositionRoot", "Consensus.CompositionRoot\Consensus.CompositionRoot.csproj", "{C42BC290-96D2-4D6E-91FE-B0C06D70FD2D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{02B5C9FD-8D73-4AFA-B4B1-0362849C8EA6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{C574D617-5A8D-48A0-A726-000D0E91F132}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consensus.CompositionRoot", "Consensus.CompositionRoot\Consensus.CompositionRoot.csproj", "{6364688C-F549-4993-ABBB-FC31081C5C63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,10 @@ Global
 		{69D84790-B7F6-4DC5-8193-C104BE3EFDBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69D84790-B7F6-4DC5-8193-C104BE3EFDBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69D84790-B7F6-4DC5-8193-C104BE3EFDBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C42BC290-96D2-4D6E-91FE-B0C06D70FD2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C42BC290-96D2-4D6E-91FE-B0C06D70FD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C42BC290-96D2-4D6E-91FE-B0C06D70FD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C42BC290-96D2-4D6E-91FE-B0C06D70FD2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6364688C-F549-4993-ABBB-FC31081C5C63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6364688C-F549-4993-ABBB-FC31081C5C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6364688C-F549-4993-ABBB-FC31081C5C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6364688C-F549-4993-ABBB-FC31081C5C63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,7 +52,7 @@ Global
 		{BF0E238C-726C-4402-B864-39B9BC64C4B1} = {C574D617-5A8D-48A0-A726-000D0E91F132}
 		{24076918-6E3E-4888-8D60-800A8AC31817} = {C574D617-5A8D-48A0-A726-000D0E91F132}
 		{69D84790-B7F6-4DC5-8193-C104BE3EFDBE} = {02B5C9FD-8D73-4AFA-B4B1-0362849C8EA6}
-		{C42BC290-96D2-4D6E-91FE-B0C06D70FD2D} = {C574D617-5A8D-48A0-A726-000D0E91F132}
+		{6364688C-F549-4993-ABBB-FC31081C5C63} = {C574D617-5A8D-48A0-A726-000D0E91F132}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7FC2BA4-0C4B-4A77-A257-3666694D0B4C}

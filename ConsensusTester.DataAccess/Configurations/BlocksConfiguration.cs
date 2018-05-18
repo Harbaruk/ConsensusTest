@@ -19,6 +19,7 @@ namespace ConsensusTester.DataAccess.Configurations
             builder.Property(x => x.PreviousBlockHash).IsRequired();
 
             builder.HasMany(x => x.Transactions).WithOne(x => x.Block);
+            builder.HasMany(x => x.Verifications).WithOne(x => x.Block);
         }
     }
 }
