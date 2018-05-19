@@ -14,7 +14,7 @@ namespace ConsensusTester.Client
         {
             if (ValidateFields())
             {
-                var mainForm = new MainForm(Username.Text, PublicKey.Text, PrivateKey.Text);
+                var mainForm = new MainForm(UsernameBox.Text, PublicKeyBox.Text, PrivateKeyBox.Text);
                 mainForm.Show();
                 this.Hide();
                 mainForm.FormClosed += MainForm_FormClosed;
@@ -28,9 +28,9 @@ namespace ConsensusTester.Client
 
         private bool ValidateFields()
         {
-            return !String.IsNullOrWhiteSpace(PublicKey.Text)
-                || !String.IsNullOrWhiteSpace(PrivateKey.Text)
-                || !String.IsNullOrWhiteSpace(Username.Text);
+            return !String.IsNullOrWhiteSpace(PrivateKeyBox.Text)
+                || !String.IsNullOrWhiteSpace(PublicKeyBox.Text)
+                || !String.IsNullOrWhiteSpace(UsernameBox.Text);
         }
     }
 }

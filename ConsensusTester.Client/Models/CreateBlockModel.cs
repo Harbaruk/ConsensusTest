@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConsensusTester.Services.Blocks.Models
+namespace ConsensusTester.Client.Models
 {
     public class CreateBlockModel
     {

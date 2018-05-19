@@ -33,5 +33,20 @@ namespace ConsensusTester.Controllers
             _blockService.VerifyBlock(verifyBlock);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("last_block")]
+        public IActionResult GetLastBlock()
+        {
+            return Ok(_blockService.GetLastBlock());
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public IActionResult CreateBlock([FromBody] CreateBlockModel blockModel)
+        {
+            _blockService.CreateBlock(blockModel);
+            return Ok();
+        }
     }
 }

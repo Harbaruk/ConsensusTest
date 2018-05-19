@@ -12,5 +12,7 @@ namespace ConsensusTester.Services.Blocks
         void VerifyBlock(VerifyBlockModel blockModel);
 
         void CreateBlock(CreateBlockModel blockModel);
+
+        BlockDetailedModel GetLastBlock();
     }
 }

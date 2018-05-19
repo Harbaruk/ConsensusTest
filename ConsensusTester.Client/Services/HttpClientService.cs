@@ -1,5 +1,7 @@
 ﻿using ConsensusTester.Client.Models;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
@@ -20,7 +22,7 @@ namespace ConsensusTester.Client.Services
         public void CreateTransaction(TransactionModel transaction)
         {
             var content = new StringContent(GenerateJsonData(transaction), Encoding.UTF8, "application/json");
-            _httpClient.PostAsync($"{_url}/transaction", content);
+            _httpClient.PostAsync($"{_url}/transaction/create", content);
         }
 
         private string GenerateJsonData(object transaction)
@@ -30,7 +32,17 @@ namespace ConsensusTester.Client.Services
 
         public bool CheckTransactionsAmount()
         {
-            return false;
+            return Int32.Parse(_httpClient.GetAsync($"{_url}/transaction/unverified_count").Result.Content.ReadAsStringAsync().Result) >= 100;
+        }
+
+        public IList<TransactionModel> GetUnverifiedTransactions()
+        {
+            return JsonConvert.DeserializeObject<List<TransactionModel>>
+                (_httpClient.GetAsync($"{_url}/transaction/unverified")
+                .Result
+                .Content
+                .ReadAsStringAsync()
+                .Result);
         }
 
         public bool CheckForBlockVerify()
@@ -38,8 +50,24 @@ namespace ConsensusTester.Client.Services
             return false;
         }
 
+        public string GetLastBlock()
+        {
+            return JsonConvert.DeserializeObject<BlockDetailedModel>
+                (_httpClient.GetAsync($"{_url}/blocks/last_block")
+                .Result
+                .Content
+                .ReadAsStringAsync()
+                .Result)?.Hash;
+        }
+
         public void VerifyBlock(string blockId, string user)
         {
+        }
+
+        public void CreateBlock(CreateBlockModel blockModel)
+        {
+            var content = new StringContent(GenerateJsonData(blockModel), Encoding.UTF8, "application/json");
+            _httpClient.PostAsync($"{_url}/blocks/create", content);
         }
     }
 }

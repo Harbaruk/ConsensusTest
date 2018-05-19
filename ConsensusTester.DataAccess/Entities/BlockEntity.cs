@@ -5,8 +5,6 @@ namespace ConsensusTester.DataAccess.Entities
 {
     public class BlockEntity
     {
-        public int Id { get; set; }
-
         public string Hash { get; set; }
 
         public DateTimeOffset Date { get; set; }

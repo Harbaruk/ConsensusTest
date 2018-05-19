@@ -12,5 +12,7 @@ namespace ConsensusTester.Services.Transactions
         int GetUnverifiedTransactions();
 
         ICollection<TransactionModel> GetAllUnverifiedTransactions();
+
+        void Generate();
     }
 }

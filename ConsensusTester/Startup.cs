@@ -1,5 +1,7 @@
 ﻿using Consensus.CompositionRoot;
 using ConsensusTester.DataAccess.Infrastructure;
+using ConsensusTester.Extensions;
+using ConsensusTester.Services.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +58,8 @@ namespace ConsensusTester
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+            services.ConfigureFromSection<ConsensusOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 
 namespace ConsensusTester.Client.Models
 {
+    [Serializable]
     public class TransactionModel
     {
         public string Id { get; set; }

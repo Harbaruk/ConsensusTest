@@ -22,5 +22,34 @@ namespace ConsensusTester.Controllers
             _transactionService.CreateTransaction(transaction);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetTransaction(string id)
+        {
+            return Ok(_transactionService.GetTransaction(id));
+        }
+
+        [HttpGet]
+        [Route("unverified_count")]
+        public IActionResult GetUnverifiedTransactionsCount()
+        {
+            return Ok(_transactionService.GetUnverifiedTransactions());
+        }
+
+        [HttpGet]
+        [Route("unverified")]
+        public IActionResult GetUnverifiedTransactions()
+        {
+            return Ok(_transactionService.GetAllUnverifiedTransactions());
+        }
+
+        [HttpGet]
+        [Route("generate")]
+        public IActionResult GenerateTransactions()
+        {
+            _transactionService.Generate();
+            return Ok();
+        }
     }
 }

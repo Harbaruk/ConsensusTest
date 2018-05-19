@@ -23,8 +23,24 @@ namespace ConsensusTester.Services.Transactions
                 Date = DateTimeOffset.Now,
                 Description = model.Description,
                 Owner = model.Owner,
-                State = TransactionState.Unverified.ToString()
+                State = TransactionState.Unverified.ToString(),
+                Id = Guid.NewGuid().ToString("D")
             });
+        }
+
+        public void Generate()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                _unitOfWork.Repository<TransactionEntity>().Insert(new TransactionEntity
+                {
+                    Date = DateTimeOffset.Now,
+                    Description = "Desctiptions" + i.ToString(),
+                    Owner = "Hryhoriy",
+                    Id = Guid.NewGuid().ToString("D"),
+                    State = TransactionState.Unverified.ToString()
+                });
+            }
         }
 
         public ICollection<TransactionModel> GetAllUnverifiedTransactions()

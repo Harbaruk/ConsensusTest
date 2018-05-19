@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace ConsensusTester.DataAccess.Infrastructure
 {
-    internal class Repository<T> : IRepository<T>
+    public class Repository<T> : IRepository<T>
         where T : class
     {
         private readonly ConsensusContext _dbContext;

@@ -31,9 +31,9 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CreateTransaction = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.LastVerifiedBlock = new ConsensusTester.Client.BlockControl();
-            this.Mining = new ConsensusTester.Client.BlockControl();
             this.label1 = new System.Windows.Forms.Label();
+            this.Mining = new ConsensusTester.Client.BlockControl();
+            this.LastVerifiedBlock = new ConsensusTester.Client.BlockControl();
             this.SuspendLayout();
             // 
             // textBox1
@@ -62,23 +62,7 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "Mining";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // LastVerifiedBlock
-            // 
-            this.LastVerifiedBlock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LastVerifiedBlock.Location = new System.Drawing.Point(33, 21);
-            this.LastVerifiedBlock.Name = "LastVerifiedBlock";
-            this.LastVerifiedBlock.Size = new System.Drawing.Size(223, 151);
-            this.LastVerifiedBlock.TabIndex = 3;
-            // 
-            // Mining
-            // 
-            this.Mining.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Mining.Location = new System.Drawing.Point(365, 21);
-            this.Mining.Name = "Mining";
-            this.Mining.Size = new System.Drawing.Size(223, 151);
-            this.Mining.TabIndex = 4;
-            this.Mining.TabStop = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
@@ -89,6 +73,23 @@
             this.label1.Size = new System.Drawing.Size(205, 24);
             this.label1.TabIndex = 5;
             this.label1.Text = "Transaction description";
+            // 
+            // Mining
+            // 
+            this.Mining.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Mining.Location = new System.Drawing.Point(365, 21);
+            this.Mining.Name = "Mining";
+            this.Mining.Size = new System.Drawing.Size(223, 151);
+            this.Mining.TabIndex = 4;
+            this.Mining.TabStop = false;
+            // 
+            // LastVerifiedBlock
+            // 
+            this.LastVerifiedBlock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LastVerifiedBlock.Location = new System.Drawing.Point(33, 21);
+            this.LastVerifiedBlock.Name = "LastVerifiedBlock";
+            this.LastVerifiedBlock.Size = new System.Drawing.Size(223, 151);
+            this.LastVerifiedBlock.TabIndex = 3;
             // 
             // MainForm
             // 

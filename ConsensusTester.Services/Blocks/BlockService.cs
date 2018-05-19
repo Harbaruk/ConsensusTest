@@ -1,7 +1,9 @@
 ﻿using ConsensusTester.DataAccess.Entities;
 using ConsensusTester.DataAccess.Infrastructure;
 using ConsensusTester.Services.Blocks.Models;
+using ConsensusTester.Services.Options;
 using ConsensusTester.Services.Transactions.Models;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,14 +12,27 @@ namespace ConsensusTester.Services.Blocks
     public class BlockService : IBlockService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IOptions<ConsensusOptions> _options;
 
-        public BlockService(IUnitOfWork unitOfWork)
+        public BlockService(IUnitOfWork unitOfWork, IOptions<ConsensusOptions> options)
         {
             _unitOfWork = unitOfWork;
+            _options = options;
         }
 
         public void CreateBlock(CreateBlockModel blockModel)
         {
+            _unitOfWork.Repository<BlockEntity>().Insert(new BlockEntity
+            {
+                BlockState = BlockState.Unverified.ToString(),
+                Date = blockModel.Date,
+                Hash = blockModel.Hash,
+                Miner = blockModel.Miner,
+                Nonce = blockModel.Nonce,
+                PreviousBlockHash = blockModel.PrevBlockHash,
+                Transactions = _unitOfWork.Repository<TransactionEntity>().Set
+                                        .Where(x => blockModel.Transactions.Contains(x.Id)).ToList()
+            });
         }
 
         public ICollection<BlockModel> GetBlocks()
@@ -64,6 +79,33 @@ namespace ConsensusTester.Services.Blocks
             return null;
         }
 
+        public BlockDetailedModel GetLastBlock()
+        {
+            var lastBlock = _unitOfWork.Repository<BlockEntity>().Include(x => x.Transactions)
+                .LastOrDefault();
+
+            if (lastBlock != null)
+            {
+                return new BlockDetailedModel
+                {
+                    Date = lastBlock.Date,
+                    Hash = lastBlock.Hash,
+                    Miner = lastBlock.Miner,
+                    Nonce = lastBlock.Nonce,
+                    PreviousHash = lastBlock.PreviousBlockHash,
+                    Transactions = lastBlock.Transactions.Select(x => new TransactionModel
+                    {
+                        Date = x.Date,
+                        Description = x.Description,
+                        Id = x.Id,
+                        Owner = x.Owner,
+                        State = x.State
+                    }).ToList()
+                };
+            }
+            return null;
+        }
+
         public BlockDetailedModel GetLastUnverifiedBlock()
         {
             var block = _unitOfWork.Repository<BlockEntity>().Include(x => x.Transactions)
@@ -93,7 +135,19 @@ namespace ConsensusTester.Services.Blocks
 
         public void VerifyBlock(VerifyBlockModel verifyBlock)
         {
-            throw new System.NotImplementedException();
+            var block = _unitOfWork.Repository<BlockEntity>().Include(x => x.Verifications)
+                .FirstOrDefault(x => x.Hash == verifyBlock.Id);
+
+            if (block != null)
+            {
+                block.Verifications.Add(new BlockVerificationEntity { UserPublicKey = verifyBlock.User });
+
+                if (block.Verifications.Count >= _options.Value.VerificationNeeded)
+                {
+                    block.BlockState = BlockState.Verified.ToString();
+                }
+                _unitOfWork.SaveChanges();
+            }
         }
     }
 }
