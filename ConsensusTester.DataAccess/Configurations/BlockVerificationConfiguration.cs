@@ -8,6 +8,8 @@ namespace ConsensusTester.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<BlockVerificationEntity> builder)
         {
+            builder.ToTable("Verifications");
+
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.UserPublicKey).IsRequired();

@@ -18,7 +18,6 @@ namespace ConsensusTester.Services.Blocks
 
         public void CreateBlock(CreateBlockModel blockModel)
         {
-            throw new System.NotImplementedException();
         }
 
         public ICollection<BlockModel> GetBlocks()
@@ -42,6 +41,33 @@ namespace ConsensusTester.Services.Blocks
                 .Include(x => x.Transactions)
                 .FirstOrDefault(x => x.BlockState == BlockState.Verified.ToString()
                                  && x.Hash == id);
+
+            if (block != null)
+            {
+                return new BlockDetailedModel
+                {
+                    Date = block.Date,
+                    Hash = block.Hash,
+                    Miner = block.Miner,
+                    Nonce = block.Nonce,
+                    PreviousHash = block.PreviousBlockHash,
+                    Transactions = block.Transactions.Select(x => new TransactionModel
+                    {
+                        Date = x.Date,
+                        Description = x.Description,
+                        Id = x.Id,
+                        Owner = x.Owner,
+                        State = x.State
+                    }).ToList()
+                };
+            }
+            return null;
+        }
+
+        public BlockDetailedModel GetLastUnverifiedBlock()
+        {
+            var block = _unitOfWork.Repository<BlockEntity>().Include(x => x.Transactions)
+                .FirstOrDefault(x => x.BlockState == BlockState.Unverified.ToString());
 
             if (block != null)
             {

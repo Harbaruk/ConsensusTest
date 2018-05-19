@@ -11,7 +11,7 @@ using System;
 namespace ConsensusTester.DataAccess.Migrations
 {
     [DbContext(typeof(ConsensusContext))]
-    [Migration("20180518125457_Initial")]
+    [Migration("20180519120453_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,8 @@ namespace ConsensusTester.DataAccess.Migrations
 
                     b.Property<DateTimeOffset>("Date");
 
+                    b.Property<int>("Id");
+
                     b.Property<string>("Miner")
                         .IsRequired();
 
@@ -42,6 +44,23 @@ namespace ConsensusTester.DataAccess.Migrations
                     b.HasKey("Hash");
 
                     b.ToTable("Blocks");
+                });
+
+            modelBuilder.Entity("ConsensusTester.DataAccess.Entities.BlockVerificationEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BlockHash");
+
+                    b.Property<string>("UserPublicKey")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlockHash");
+
+                    b.ToTable("Verifications");
                 });
 
             modelBuilder.Entity("ConsensusTester.DataAccess.Entities.TransactionEntity", b =>
@@ -58,13 +77,22 @@ namespace ConsensusTester.DataAccess.Migrations
                     b.Property<string>("Owner")
                         .IsRequired();
 
-                    b.Property<string>("State");
+                    b.Property<string>("State")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("BlockHash");
 
-                    b.ToTable("TransactionEntity");
+                    b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("ConsensusTester.DataAccess.Entities.BlockVerificationEntity", b =>
+                {
+                    b.HasOne("ConsensusTester.DataAccess.Entities.BlockEntity", "Block")
+                        .WithMany("Verifications")
+                        .HasForeignKey("BlockHash")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ConsensusTester.DataAccess.Entities.TransactionEntity", b =>

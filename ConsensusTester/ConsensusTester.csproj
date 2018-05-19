@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Consensus.CompositionRoot\Consensus.CompositionRoot.csproj" />
     <ProjectReference Include="..\ConsensusTester.Services\ConsensusTester.Services.csproj" />
   </ItemGroup>
 

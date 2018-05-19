@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace ConsensusTester.DataAccess.Migrations
 {
@@ -14,6 +16,7 @@ namespace ConsensusTester.DataAccess.Migrations
                     Hash = table.Column<string>(nullable: false),
                     BlockState = table.Column<string>(nullable: false),
                     Date = table.Column<DateTimeOffset>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Miner = table.Column<string>(nullable: false),
                     Nonce = table.Column<long>(nullable: false),
                     PreviousBlockHash = table.Column<string>(nullable: false)
@@ -24,7 +27,7 @@ namespace ConsensusTester.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TransactionEntity",
+                name: "Transactions",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -32,29 +35,57 @@ namespace ConsensusTester.DataAccess.Migrations
                     Date = table.Column<DateTimeOffset>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Owner = table.Column<string>(nullable: false),
-                    State = table.Column<string>(nullable: true)
+                    State = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TransactionEntity", x => x.Id);
+                    table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TransactionEntity_Blocks_BlockHash",
+                        name: "FK_Transactions_Blocks_BlockHash",
                         column: x => x.BlockHash,
                         principalTable: "Blocks",
                         principalColumn: "Hash",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Verifications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlockHash = table.Column<string>(nullable: true),
+                    UserPublicKey = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Verifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Verifications_Blocks_BlockHash",
+                        column: x => x.BlockHash,
+                        principalTable: "Blocks",
+                        principalColumn: "Hash",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TransactionEntity_BlockHash",
-                table: "TransactionEntity",
+                name: "IX_Transactions_BlockHash",
+                table: "Transactions",
+                column: "BlockHash");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Verifications_BlockHash",
+                table: "Verifications",
                 column: "BlockHash");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TransactionEntity");
+                name: "Transactions");
+
+            migrationBuilder.DropTable(
+                name: "Verifications");
 
             migrationBuilder.DropTable(
                 name: "Blocks");

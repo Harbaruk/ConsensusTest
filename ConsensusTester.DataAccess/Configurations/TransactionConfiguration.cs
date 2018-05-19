@@ -8,10 +8,13 @@ namespace ConsensusTester.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<TransactionEntity> builder)
         {
+            builder.ToTable("Transactions");
+
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Date).IsRequired();
             builder.Property(x => x.Description);
             builder.Property(x => x.Owner).IsRequired();
+            builder.Property(x => x.State).IsRequired();
             builder.HasOne(x => x.Block).WithMany(x => x.Transactions);
         }
     }
