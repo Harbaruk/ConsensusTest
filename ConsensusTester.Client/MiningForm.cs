@@ -21,7 +21,7 @@ namespace ConsensusTester.Client
 
         private string User { get; set; }
 
-        public bool Cancel { get; set; }
+        private CancellationTokenSource CancellationTokenSource { get; set; }
 
         public MiningForm(BlockDetailedModel model, string user)
         {
@@ -34,13 +34,16 @@ namespace ConsensusTester.Client
         public async void Run(CancellationTokenSource tokenSource)
         {
             var uiContext = TaskScheduler.FromCurrentSynchronizationContext();
-            Mining();
+            CancellationTokenSource = tokenSource;
             Task<CreateBlockModel> task = new Task<CreateBlockModel>(Mining, tokenSource.Token);
 
-            task.Start(uiContext);
+            task.Start();
 
             var createdBlock = await task;
-
+            if (createdBlock == null)
+            {
+                this.Close();
+            }
             var isGood = VerifyBlock(Block.Transactions, createdBlock);
 
             _httpClient.CreateBlock(createdBlock);
@@ -86,15 +89,19 @@ namespace ConsensusTester.Client
                 {
                     do
                     {
+                        if (CancellationTokenSource.IsCancellationRequested)
+                        {
+                            return null;
+                        }
                         obj.Nonce++;
                         ms.Position = 0;
                         BinaryFormatter bf = new BinaryFormatter();
                         bf.Serialize(ms, obj);
 
                         blockResultHash = Convert.ToBase64String(sha.ComputeHash(ms.ToArray()));
-                        Output.Text += Environment.NewLine + blockResultHash;
+                        ThreadHelperClass.SetText(this, Output, blockResultHash);
                     }
-                    while (!blockResultHash.Substring(0, 1).All(x => x == '0'));
+                    while (!blockResultHash.Substring(0, 5).All(x => x == '0'));
 
                     return new CreateBlockModel
                     {

@@ -11,7 +11,7 @@ using System;
 namespace ConsensusTester.DataAccess.Migrations
 {
     [DbContext(typeof(ConsensusContext))]
-    [Migration("20180519120453_Initial")]
+    [Migration("20180520080815_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,8 +30,6 @@ namespace ConsensusTester.DataAccess.Migrations
                         .IsRequired();
 
                     b.Property<DateTimeOffset>("Date");
-
-                    b.Property<int>("Id");
 
                     b.Property<string>("Miner")
                         .IsRequired();

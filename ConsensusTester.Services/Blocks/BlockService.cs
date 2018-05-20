@@ -22,6 +22,8 @@ namespace ConsensusTester.Services.Blocks
 
         public void CreateBlock(CreateBlockModel blockModel)
         {
+            var transactions = _unitOfWork.Repository<TransactionEntity>().Set
+                                        .Where(x => blockModel.Transactions.Contains(x.Id)).ToList();
             _unitOfWork.Repository<BlockEntity>().Insert(new BlockEntity
             {
                 BlockState = BlockState.Unverified.ToString(),
@@ -30,9 +32,14 @@ namespace ConsensusTester.Services.Blocks
                 Miner = blockModel.Miner,
                 Nonce = blockModel.Nonce,
                 PreviousBlockHash = blockModel.PrevBlockHash,
-                Transactions = _unitOfWork.Repository<TransactionEntity>().Set
-                                        .Where(x => blockModel.Transactions.Contains(x.Id)).ToList()
+                Transactions = transactions
             });
+
+            foreach (var trans in transactions)
+            {
+                trans.State = TransactionState.Verified.ToString();
+            }
+            _unitOfWork.SaveChanges();
         }
 
         public ICollection<BlockModel> GetBlocks()

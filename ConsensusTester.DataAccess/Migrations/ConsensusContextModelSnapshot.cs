@@ -30,8 +30,6 @@ namespace ConsensusTester.DataAccess.Migrations
 
                     b.Property<DateTimeOffset>("Date");
 
-                    b.Property<int>("Id");
-
                     b.Property<string>("Miner")
                         .IsRequired();
 

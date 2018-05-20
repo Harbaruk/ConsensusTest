@@ -16,7 +16,6 @@ namespace ConsensusTester.DataAccess.Migrations
                     Hash = table.Column<string>(nullable: false),
                     BlockState = table.Column<string>(nullable: false),
                     Date = table.Column<DateTimeOffset>(nullable: false),
-                    Id = table.Column<int>(nullable: false),
                     Miner = table.Column<string>(nullable: false),
                     Nonce = table.Column<long>(nullable: false),
                     PreviousBlockHash = table.Column<string>(nullable: false)
