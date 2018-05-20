@@ -28,10 +28,17 @@ namespace ConsensusTester.Controllers
 
         [HttpPost]
         [Route("verify")]
-        public IActionResult GetPendingBlocks([FromBody]VerifyBlockModel verifyBlock)
+        public IActionResult VerifyBlock([FromBody]VerifyBlockModel verifyBlock)
         {
             _blockService.VerifyBlock(verifyBlock);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("unverified/{user}")]
+        public IActionResult GetPendingBlocks(string user)
+        {
+            return Ok(_blockService.GetLastUnverifiedBlock(user));
         }
 
         [HttpGet]

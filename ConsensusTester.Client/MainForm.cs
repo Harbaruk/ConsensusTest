@@ -7,6 +7,7 @@ namespace ConsensusTester.Client
 {
     public partial class MainForm : Form
     {
+        private MiningForm _miningForm;
         private string _username;
         private string _privateKey;
         private string _publicKey;
@@ -21,8 +22,31 @@ namespace ConsensusTester.Client
             _publicKey = publicKey;
             _httpClient = new HttpClientService(_publicKey);
             _miningTokenSource = new CancellationTokenSource();
+            _miningForm = new MiningForm(_publicKey);
 
+            _miningForm.SpeedChanged += _miningForm_SpeedChanged;
+            _miningForm.BlockCreated += _miningForm_BlockCreated;
             InitializeComponent();
+
+            var block = _httpClient.GetLastBlock();
+            LastVerifiedBlock.HashLabelProp.Text = block?.Hash;
+            LastVerifiedBlock.MinerLabelProp.Text = block?.Miner;
+            LastVerifiedBlock.DateLabelProp.Text = block?.Date.ToString();
+        }
+
+        private void _miningForm_BlockCreated()
+        {
+            var block = _httpClient.GetLastBlock();
+
+            LastVerifiedBlock.HashLabelProp.Text = block?.Hash;
+            LastVerifiedBlock.MinerLabelProp.Text = block?.Miner;
+            LastVerifiedBlock.DateLabelProp.Text = block?.Date.ToString();
+            LastVerifiedBlock.Visible = true;
+        }
+
+        private void _miningForm_SpeedChanged()
+        {
+            SpeedLabel.Text = "Speed : " + _miningForm?.HashSpeed;
         }
 
         private void CreateTransaction_Click(object sender, EventArgs e)
@@ -44,25 +68,23 @@ namespace ConsensusTester.Client
             if (_isMining)
             {
                 _miningTokenSource.Cancel();
+
+                _miningTokenSource = new CancellationTokenSource();
                 _isMining = false;
+                _miningForm._isMining = false;
                 button2.Text = "Mining";
+                _miningForm.Close();
+                SpeedLabel.Text = "Speed : 0";
             }
             else
             {
                 button2.Text = "Stop";
                 _isMining = true;
-                if (_httpClient.CheckTransactionsAmount())
-                {
-                    var transactions = _httpClient.GetUnverifiedTransactions();
-                    var block = _httpClient.GetLastBlock() ?? "0000000000";
-                    MiningForm mining = new MiningForm(new Models.BlockDetailedModel
-                    {
-                        Transactions = transactions,
-                        PreviousHash = block
-                    }, _publicKey);
-                    mining.Show();
-                    mining.Run(_miningTokenSource);
-                }
+
+                _miningForm = new MiningForm(_publicKey);
+                _miningForm.SpeedChanged += _miningForm_SpeedChanged;
+                _miningForm.Show();
+                _miningForm.Start();
             }
         }
     }

@@ -21,11 +21,20 @@ namespace ConsensusTester.Client.Services.Helpers
             if (ctrl.InvokeRequired)
             {
                 SetTextCallback d = new SetTextCallback(SetText);
-                form.Invoke(d, new object[] { form, ctrl, text });
+                try
+                {
+                    form.Invoke(d, new object[] { form, ctrl, text });
+                }
+                catch
+                { }
             }
             else
             {
-                ((TextBox)ctrl).AppendText(text + Environment.NewLine);
+                try
+                {
+                    ((TextBox)ctrl).AppendText(text + Environment.NewLine);
+                }
+                catch { }
             }
         }
     }

@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CreateTransaction = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.SpeedLabel = new System.Windows.Forms.Label();
             this.Mining = new ConsensusTester.Client.BlockControl();
             this.LastVerifiedBlock = new ConsensusTester.Client.BlockControl();
             this.SuspendLayout();
@@ -74,6 +77,15 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Transaction description";
             // 
+            // SpeedLabel
+            // 
+            this.SpeedLabel.Location = new System.Drawing.Point(652, 425);
+            this.SpeedLabel.Name = "SpeedLabel";
+            this.SpeedLabel.Size = new System.Drawing.Size(98, 23);
+            this.SpeedLabel.TabIndex = 6;
+            this.SpeedLabel.Text = "Speed : ";
+            this.SpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Mining
             // 
             this.Mining.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -82,6 +94,7 @@
             this.Mining.Size = new System.Drawing.Size(223, 151);
             this.Mining.TabIndex = 4;
             this.Mining.TabStop = false;
+            this.Mining.Visible = false;
             // 
             // LastVerifiedBlock
             // 
@@ -90,12 +103,14 @@
             this.LastVerifiedBlock.Name = "LastVerifiedBlock";
             this.LastVerifiedBlock.Size = new System.Drawing.Size(223, 151);
             this.LastVerifiedBlock.TabIndex = 3;
+            this.LastVerifiedBlock.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(791, 475);
+            this.Controls.Add(this.SpeedLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Mining);
             this.Controls.Add(this.LastVerifiedBlock);
@@ -117,6 +132,8 @@
         private BlockControl LastVerifiedBlock;
         private BlockControl Mining;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label SpeedLabel;
     }
 }
 

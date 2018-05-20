@@ -89,7 +89,7 @@ namespace ConsensusTester.Services.Blocks
         public BlockDetailedModel GetLastBlock()
         {
             var lastBlock = _unitOfWork.Repository<BlockEntity>().Include(x => x.Transactions)
-                .LastOrDefault();
+                .LastOrDefault(x => x.BlockState == BlockState.Verified.ToString());
 
             if (lastBlock != null)
             {
@@ -113,10 +113,10 @@ namespace ConsensusTester.Services.Blocks
             return null;
         }
 
-        public BlockDetailedModel GetLastUnverifiedBlock()
+        public BlockDetailedModel GetLastUnverifiedBlock(string user)
         {
             var block = _unitOfWork.Repository<BlockEntity>().Include(x => x.Transactions)
-                .FirstOrDefault(x => x.BlockState == BlockState.Unverified.ToString());
+                .FirstOrDefault(x => x.BlockState == BlockState.Unverified.ToString() && x.Miner != user);
 
             if (block != null)
             {

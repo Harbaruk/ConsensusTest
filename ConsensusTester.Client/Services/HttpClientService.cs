@@ -47,21 +47,29 @@ namespace ConsensusTester.Client.Services
 
         public bool CheckForBlockVerify()
         {
-            return false;
+            return _httpClient.GetAsync($"{_url}/blocks/unverified/{_user}").Result.Content.ReadAsStringAsync() == null;
         }
 
-        public string GetLastBlock()
+        public BlockDetailedModel GetLastBlock()
         {
             return JsonConvert.DeserializeObject<BlockDetailedModel>
                 (_httpClient.GetAsync($"{_url}/blocks/last_block")
                 .Result
                 .Content
                 .ReadAsStringAsync()
-                .Result)?.Hash;
+                .Result);
         }
 
         public void VerifyBlock(string blockId, string user)
         {
+            var content = new StringContent(GenerateJsonData(new VerifyBlockModel { Id = blockId, User = user }), Encoding.UTF8, "application/json");
+            _httpClient.PostAsync($"{_url}/blocks/verify", content);
+        }
+
+        public BlockDetailedModel GetUnverifiedBlock()
+        {
+            return JsonConvert.DeserializeObject<BlockDetailedModel>
+                (_httpClient.GetAsync($"{_url}/blocks/unverified").Result.Content.ReadAsStringAsync().Result);
         }
 
         public void CreateBlock(CreateBlockModel blockModel)

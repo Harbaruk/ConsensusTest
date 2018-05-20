@@ -50,6 +50,7 @@
             this.Controls.Add(this.Output);
             this.Name = "MiningForm";
             this.Text = "MiningForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MiningForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
