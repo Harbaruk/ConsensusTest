@@ -41,17 +41,28 @@ namespace ConsensusTester.Client
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (_httpClient.CheckTransactionsAmount())
+            if (_isMining)
             {
-                var transactions = _httpClient.GetUnverifiedTransactions();
-                var block = _httpClient.GetLastBlock() ?? "0000000000";
-                MiningForm mining = new MiningForm(new Models.BlockDetailedModel
+                _miningTokenSource.Cancel();
+                _isMining = false;
+                button2.Text = "Mining";
+            }
+            else
+            {
+                button2.Text = "Stop";
+                _isMining = true;
+                if (_httpClient.CheckTransactionsAmount())
                 {
-                    Transactions = transactions,
-                    PreviousHash = block
-                }, _publicKey);
-                mining.Show();
-                mining.Run(_miningTokenSource);
+                    var transactions = _httpClient.GetUnverifiedTransactions();
+                    var block = _httpClient.GetLastBlock() ?? "0000000000";
+                    MiningForm mining = new MiningForm(new Models.BlockDetailedModel
+                    {
+                        Transactions = transactions,
+                        PreviousHash = block
+                    }, _publicKey);
+                    mining.Show();
+                    mining.Run(_miningTokenSource);
+                }
             }
         }
     }
