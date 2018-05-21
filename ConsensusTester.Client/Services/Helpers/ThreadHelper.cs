@@ -7,6 +7,8 @@ namespace ConsensusTester.Client.Services.Helpers
     {
         private delegate void SetTextCallback(Form f, Control ctrl, string text);
 
+        private delegate void SetTextBlockCallback(Form f, Control ctrl, string text1, string text2, string text3);
+
         /// <summary>
         /// Set text property of various controls
         /// </summary>
@@ -32,7 +34,38 @@ namespace ConsensusTester.Client.Services.Helpers
             {
                 try
                 {
-                    ((TextBox)ctrl).AppendText(text + Environment.NewLine);
+                    if (ctrl.GetType() == typeof(Label))
+                    {
+                        ctrl.Text = text;
+                    }
+                    else { ((TextBox)ctrl).AppendText(text + Environment.NewLine); }
+                }
+                catch { }
+            }
+        }
+
+        public static void SetTextBlock(Form form, Control ctrl, string text1, string text2, string text3)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (ctrl.InvokeRequired)
+            {
+                SetTextBlockCallback d = new SetTextBlockCallback(SetTextBlock);
+                try
+                {
+                    form.Invoke(d, new object[] { form, ctrl, text1, text2, text3 });
+                }
+                catch
+                { }
+            }
+            else
+            {
+                try
+                {
+                    ((BlockControl)ctrl).HashLabelProp.Text = text1;
+                    ((BlockControl)ctrl).DateLabelProp.Text = text2;
+                    ((BlockControl)ctrl).MinerLabelProp.Text = text3;
                 }
                 catch { }
             }

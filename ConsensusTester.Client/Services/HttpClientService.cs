@@ -47,7 +47,7 @@ namespace ConsensusTester.Client.Services
 
         public bool CheckForBlockVerify()
         {
-            return _httpClient.GetAsync($"{_url}/blocks/unverified/{_user}").Result.Content.ReadAsStringAsync() == null;
+            return JsonConvert.DeserializeObject<BlockDetailedModel>(_httpClient.GetAsync($"{_url}/blocks/unverified/{_user}").Result.Content.ReadAsStringAsync().Result) != null;
         }
 
         public BlockDetailedModel GetLastBlock()
@@ -69,13 +69,13 @@ namespace ConsensusTester.Client.Services
         public BlockDetailedModel GetUnverifiedBlock()
         {
             return JsonConvert.DeserializeObject<BlockDetailedModel>
-                (_httpClient.GetAsync($"{_url}/blocks/unverified").Result.Content.ReadAsStringAsync().Result);
+                (_httpClient.GetAsync($"{_url}/blocks/unverified/{_user}").Result.Content.ReadAsStringAsync().Result);
         }
 
         public void CreateBlock(CreateBlockModel blockModel)
         {
             var content = new StringContent(GenerateJsonData(blockModel), Encoding.UTF8, "application/json");
-            _httpClient.PostAsync($"{_url}/blocks/create", content);
+            _httpClient.PostAsync($"{_url}/blocks/create", content).Wait();
         }
     }
 }

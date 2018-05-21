@@ -24,6 +24,13 @@ namespace ConsensusTester.Services.Blocks
         {
             var transactions = _unitOfWork.Repository<TransactionEntity>().Set
                                         .Where(x => blockModel.Transactions.Contains(x.Id)).ToList();
+
+            var existedBlock = _unitOfWork.Repository<BlockEntity>().Set.FirstOrDefault(x => x.Hash == blockModel.Hash);
+
+            if (existedBlock != null)
+            {
+                return;
+            }
             _unitOfWork.Repository<BlockEntity>().Insert(new BlockEntity
             {
                 BlockState = BlockState.Unverified.ToString(),
@@ -89,7 +96,7 @@ namespace ConsensusTester.Services.Blocks
         public BlockDetailedModel GetLastBlock()
         {
             var lastBlock = _unitOfWork.Repository<BlockEntity>().Include(x => x.Transactions)
-                .LastOrDefault(x => x.BlockState == BlockState.Verified.ToString());
+                .OrderBy(x => x.Date).LastOrDefault(x => x.BlockState == BlockState.Verified.ToString());
 
             if (lastBlock != null)
             {
@@ -148,6 +155,7 @@ namespace ConsensusTester.Services.Blocks
             if (block != null)
             {
                 block.Verifications.Add(new BlockVerificationEntity { UserPublicKey = verifyBlock.User });
+                _unitOfWork.SaveChanges();
 
                 if (block.Verifications.Count >= _options.Value.VerificationNeeded)
                 {

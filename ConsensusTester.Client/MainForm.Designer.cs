@@ -35,8 +35,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SpeedLabel = new System.Windows.Forms.Label();
-            this.Mining = new ConsensusTester.Client.BlockControl();
+            this.TimeLabel = new System.Windows.Forms.Label();
             this.LastVerifiedBlock = new ConsensusTester.Client.BlockControl();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.PublicKeyLabel = new System.Windows.Forms.Label();
+            this.PrivateKeyLabel = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
@@ -86,39 +91,76 @@
             this.SpeedLabel.Text = "Speed : ";
             this.SpeedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // Mining
+            // TimeLabel
             // 
-            this.Mining.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Mining.Location = new System.Drawing.Point(365, 21);
-            this.Mining.Name = "Mining";
-            this.Mining.Size = new System.Drawing.Size(223, 151);
-            this.Mining.TabIndex = 4;
-            this.Mining.TabStop = false;
-            this.Mining.Visible = false;
+            this.TimeLabel.Location = new System.Drawing.Point(652, 448);
+            this.TimeLabel.Name = "TimeLabel";
+            this.TimeLabel.Size = new System.Drawing.Size(98, 23);
+            this.TimeLabel.TabIndex = 7;
+            this.TimeLabel.Text = "Time : ";
+            this.TimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LastVerifiedBlock
             // 
             this.LastVerifiedBlock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LastVerifiedBlock.Location = new System.Drawing.Point(33, 21);
+            this.LastVerifiedBlock.Location = new System.Drawing.Point(33, 76);
             this.LastVerifiedBlock.Name = "LastVerifiedBlock";
             this.LastVerifiedBlock.Size = new System.Drawing.Size(223, 151);
             this.LastVerifiedBlock.TabIndex = 3;
             this.LastVerifiedBlock.Visible = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.PrivateKeyLabel);
+            this.groupBox1.Controls.Add(this.PublicKeyLabel);
+            this.groupBox1.Controls.Add(this.UsernameLabel);
+            this.groupBox1.Location = new System.Drawing.Point(576, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(189, 170);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "User information";
+            // 
+            // UsernameLabel
+            // 
+            this.UsernameLabel.Location = new System.Drawing.Point(73, 37);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(100, 23);
+            this.UsernameLabel.TabIndex = 0;
+            this.UsernameLabel.Text = "label2";
+            // 
+            // PublicKeyLabel
+            // 
+            this.PublicKeyLabel.Location = new System.Drawing.Point(73, 83);
+            this.PublicKeyLabel.Name = "PublicKeyLabel";
+            this.PublicKeyLabel.Size = new System.Drawing.Size(100, 23);
+            this.PublicKeyLabel.TabIndex = 1;
+            this.PublicKeyLabel.Text = "label3";
+            // 
+            // PrivateKeyLabel
+            // 
+            this.PrivateKeyLabel.Location = new System.Drawing.Point(73, 130);
+            this.PrivateKeyLabel.Name = "PrivateKeyLabel";
+            this.PrivateKeyLabel.Size = new System.Drawing.Size(100, 23);
+            this.PrivateKeyLabel.TabIndex = 2;
+            this.PrivateKeyLabel.Text = "label4";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(791, 475);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.SpeedLabel);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.Mining);
             this.Controls.Add(this.LastVerifiedBlock);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.CreateTransaction);
             this.Controls.Add(this.textBox1);
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,10 +172,14 @@
         private System.Windows.Forms.Button CreateTransaction;
         private System.Windows.Forms.Button button2;
         private BlockControl LastVerifiedBlock;
-        private BlockControl Mining;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label SpeedLabel;
+        private System.Windows.Forms.Label TimeLabel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label PrivateKeyLabel;
+        private System.Windows.Forms.Label PublicKeyLabel;
+        private System.Windows.Forms.Label UsernameLabel;
     }
 }
 

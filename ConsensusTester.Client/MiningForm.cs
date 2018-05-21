@@ -31,8 +31,8 @@ namespace ConsensusTester.Client
 
         private string User { get; set; }
 
-        private System.Timers.Timer _checkerTimer = new System.Timers.Timer(2000);
-        private System.Timers.Timer _txTimer = new System.Timers.Timer(2000);
+        private System.Timers.Timer _checkerTimer = new System.Timers.Timer(5000);
+        private System.Timers.Timer _txTimer = new System.Timers.Timer(5000);
 
         private CancellationTokenSource _miningTokenSource { get; set; }
 
@@ -42,6 +42,7 @@ namespace ConsensusTester.Client
         {
             InitializeComponent();
             _httpClient = new HttpClientService(user);
+            User = user;
 
             _miningTokenSource = new CancellationTokenSource();
         }
@@ -51,6 +52,7 @@ namespace ConsensusTester.Client
             _checkerTimer.Elapsed += _timer_Elapsed;
             _txTimer.Elapsed += _txTimer_Elapsed;
             _checkerTimer.Start();
+            Thread.Sleep(1000);
             _txTimer.Start();
         }
 
@@ -66,9 +68,8 @@ namespace ConsensusTester.Client
                     Transactions = transactions,
                     PreviousHash = block
                 };
-
-                Run();
                 _txTimer.Stop();
+                Task.Factory.StartNew(() => Run(), _miningTokenSource.Token);
             }
         }
 
@@ -76,9 +77,10 @@ namespace ConsensusTester.Client
         {
             HashSpeed = _hashCurr - _hashPrev;
             _hashPrev = _hashCurr;
-            SpeedChanged();
+
             if (_httpClient.CheckForBlockVerify())
             {
+                _checkerTimer.Stop();
                 _txTimer.Stop();
                 _miningTokenSource.Cancel();
 
@@ -86,12 +88,13 @@ namespace ConsensusTester.Client
                 if (VerifyBlock(block))
                 {
                     _httpClient.VerifyBlock(block.Hash, User);
-                    BlockCreated();
                 }
                 _miningTokenSource = new CancellationTokenSource();
 
                 _txTimer.Start();
+                _checkerTimer.Start();
             }
+            SpeedChanged();
         }
 
         public async void Run()
@@ -101,20 +104,30 @@ namespace ConsensusTester.Client
 
             var createdBlock = await task;
 
+            _txTimer.Stop();
+            _checkerTimer.Stop();
+
             if (createdBlock != null)
             {
                 _httpClient.CreateBlock(createdBlock);
                 _txTimer.Start();
+                _checkerTimer.Start();
             }
+            _txTimer.Start();
+            _checkerTimer.Start();
         }
 
         private bool VerifyBlock(BlockDetailedModel model)
         {
-            var transactionHash = MerkleTree<TransactionModel>.Compute(model.Transactions);
+            foreach (var mod in model.Transactions)
+            {
+                mod.State = "Unverified";
+            }
+            var transactionHash = MerkleTree<TransactionModel>.Compute(model.Transactions.OrderBy(x => x.Id).ToList());
             var obj = new MiningBlock
             {
-                Hash = transactionHash + model.PreviousHash,
-                PreviousBlockHash = model.PreviousHash,
+                Hash = transactionHash.TrimEnd('=') + model.PreviousHash.TrimEnd('='),
+                PreviousBlockHash = model.PreviousHash.TrimEnd('='),
                 Nonce = model.Nonce,
                 Miner = model.Miner
             };
@@ -123,6 +136,7 @@ namespace ConsensusTester.Client
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
+                    ms.Position = 0;
                     BinaryFormatter bf = new BinaryFormatter();
                     bf.Serialize(ms, obj);
 
@@ -133,11 +147,15 @@ namespace ConsensusTester.Client
 
         private CreateBlockModel Mining()
         {
-            var transactionHash = MerkleTree<TransactionModel>.Compute(Block.Transactions);
+            if (Block.Transactions.Count == 0)
+            {
+                return null;
+            }
+            var transactionHash = MerkleTree<TransactionModel>.Compute(Block.Transactions.OrderBy(x => x.Id).ToList());
             var obj = new MiningBlock
             {
-                Hash = transactionHash + Block.PreviousHash,
-                PreviousBlockHash = User,
+                Hash = transactionHash.TrimEnd('=') + Block.PreviousHash.TrimEnd('='),
+                PreviousBlockHash = Block.PreviousHash.TrimEnd('='),
                 Nonce = -1,
                 Miner = User
             };
@@ -180,6 +198,7 @@ namespace ConsensusTester.Client
         {
             _txTimer.Stop();
             _checkerTimer.Stop();
+            _miningTokenSource.Cancel();
         }
     }
 }
