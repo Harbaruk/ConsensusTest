@@ -38,9 +38,10 @@
             this.TimeLabel = new System.Windows.Forms.Label();
             this.LastVerifiedBlock = new ConsensusTester.Client.BlockControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.UsernameLabel = new System.Windows.Forms.Label();
-            this.PublicKeyLabel = new System.Windows.Forms.Label();
             this.PrivateKeyLabel = new System.Windows.Forms.Label();
+            this.PublicKeyLabel = new System.Windows.Forms.Label();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,7 +104,7 @@
             // LastVerifiedBlock
             // 
             this.LastVerifiedBlock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LastVerifiedBlock.Location = new System.Drawing.Point(33, 76);
+            this.LastVerifiedBlock.Location = new System.Drawing.Point(556, 12);
             this.LastVerifiedBlock.Name = "LastVerifiedBlock";
             this.LastVerifiedBlock.Size = new System.Drawing.Size(223, 151);
             this.LastVerifiedBlock.TabIndex = 3;
@@ -114,28 +115,12 @@
             this.groupBox1.Controls.Add(this.PrivateKeyLabel);
             this.groupBox1.Controls.Add(this.PublicKeyLabel);
             this.groupBox1.Controls.Add(this.UsernameLabel);
-            this.groupBox1.Location = new System.Drawing.Point(576, 12);
+            this.groupBox1.Location = new System.Drawing.Point(24, 23);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(189, 170);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "User information";
-            // 
-            // UsernameLabel
-            // 
-            this.UsernameLabel.Location = new System.Drawing.Point(73, 37);
-            this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(100, 23);
-            this.UsernameLabel.TabIndex = 0;
-            this.UsernameLabel.Text = "label2";
-            // 
-            // PublicKeyLabel
-            // 
-            this.PublicKeyLabel.Location = new System.Drawing.Point(73, 83);
-            this.PublicKeyLabel.Name = "PublicKeyLabel";
-            this.PublicKeyLabel.Size = new System.Drawing.Size(100, 23);
-            this.PublicKeyLabel.TabIndex = 1;
-            this.PublicKeyLabel.Text = "label3";
             // 
             // PrivateKeyLabel
             // 
@@ -145,11 +130,38 @@
             this.PrivateKeyLabel.TabIndex = 2;
             this.PrivateKeyLabel.Text = "label4";
             // 
+            // PublicKeyLabel
+            // 
+            this.PublicKeyLabel.Location = new System.Drawing.Point(73, 83);
+            this.PublicKeyLabel.Name = "PublicKeyLabel";
+            this.PublicKeyLabel.Size = new System.Drawing.Size(100, 23);
+            this.PublicKeyLabel.TabIndex = 1;
+            this.PublicKeyLabel.Text = "label3";
+            // 
+            // UsernameLabel
+            // 
+            this.UsernameLabel.Location = new System.Drawing.Point(73, 37);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(100, 23);
+            this.UsernameLabel.TabIndex = 0;
+            this.UsernameLabel.Text = "label2";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(696, 347);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(54, 24);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Chart";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(791, 475);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.TimeLabel);
             this.Controls.Add(this.SpeedLabel);
@@ -180,6 +192,7 @@
         private System.Windows.Forms.Label PrivateKeyLabel;
         private System.Windows.Forms.Label PublicKeyLabel;
         private System.Windows.Forms.Label UsernameLabel;
+        private System.Windows.Forms.Button button1;
     }
 }
 

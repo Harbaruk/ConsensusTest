@@ -20,8 +20,9 @@ namespace ConsensusTester.Client
         private System.Timers.Timer _miningTimer;
         private bool _isMining = false;
         private TimeSpan _miningTime = new TimeSpan();
+        private ChartForm _chartForm;
 
-        public MainForm(string username, string privateKey, string publicKey)
+        public MainForm(string username, string publicKey, string privateKey)
         {
             _username = username;
             _blockUpdateTimer = new System.Timers.Timer(10000);
@@ -31,6 +32,7 @@ namespace ConsensusTester.Client
             _blockUpdateTimer.Start();
             _privateKey = privateKey;
             _publicKey = publicKey;
+            _chartForm = new ChartForm();
 
             _httpClient = new HttpClientService(_publicKey);
             _miningTokenSource = new CancellationTokenSource();
@@ -84,6 +86,7 @@ namespace ConsensusTester.Client
         private void _miningForm_SpeedChanged()
         {
             ThreadHelperClass.SetText(this, SpeedLabel, "Speed : " + _miningForm?.HashSpeed);
+            _chartForm.AddSeries((int)_miningForm.HashSpeed);
         }
 
         private void CreateTransaction_Click(object sender, EventArgs e)
@@ -132,6 +135,11 @@ namespace ConsensusTester.Client
                 _miningForm.Start();
                 _miningTimer.Start();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _chartForm.Show();
         }
     }
 }

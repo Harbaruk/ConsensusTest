@@ -70,5 +70,30 @@ namespace ConsensusTester.Client.Services.Helpers
                 catch { }
             }
         }
+
+        public static void AddSpeed(Form form, Control ctrl, int value)
+        {
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (ctrl.InvokeRequired)
+            {
+                SetTextBlockCallback d = new SetTextBlockCallback(SetTextBlock);
+                try
+                {
+                    form.Invoke(d, new object[] { form, ctrl, value });
+                }
+                catch
+                { }
+            }
+            else
+            {
+                try
+                {
+                    ((ChartForm)ctrl).AddSeries(value);
+                }
+                catch { }
+            }
+        }
     }
 }
